@@ -1,0 +1,69 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int save(vector<vector<int> >&ls,int curr,vector<int>& vis,vector<int>& sz){
+    int a=0,b=0;
+    for(int i=0;i<ls[curr].size();i++){
+        if(vis[ls[curr][i]]==0){
+            if(a==0) a=ls[curr][i];
+            else if(b==0) b=ls[curr][i];
+        }
+    }
+    vis[curr]=1;
+    if(a==0) return 0;
+    if(b==0){
+        return sz[a];
+    }
+    return max( (sz[a]+save(ls,b,vis,sz)), (sz[b]+save(ls,a,vis,sz)) );
+}
+
+//to get size of subtree
+int treesize(vector<vector<int>>& ls,vector<int>& vis,int curr,vector<int> &sz){
+    int a=0,b=0;
+    for(int i=0;i<ls[curr].size();i++){
+        if(vis[ls[curr][i]]==0){
+            if(a==0) a=ls[curr][i];
+            else if(b==0) b=ls[curr][i];
+        }
+    }
+    vis[curr]=1;
+    if(a==0){
+        sz[curr]=0;
+    }
+    else if(b==0){
+        sz[curr]=1+treesize(ls,vis,a,sz);
+    }
+    else{
+        sz[curr]=2+treesize(ls,vis,a,sz) + treesize(ls,vis,b,sz);
+    }
+    vis[curr]=0;
+    return sz[curr];
+}
+
+void solve(){
+    int n; 
+    cin >> n;
+    vector<vector<int> > ls(n+1);
+    for(int i=1;i<n;i++){
+        int a,b;
+        cin>> a >> b;
+        ls[a].push_back(b);
+        ls[b].push_back(a);
+    }
+    vector<int> sz(n+1,0);
+    vector<int> vis(n+1,0);
+    treesize(ls,vis,1,sz);
+    //for(int i=0;i<=n;i++) cout<<sz[i]<<endl;
+    cout<< save(ls,1,vis,sz)<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+    cin >> t;
+    while(t){
+        solve();
+        t--;
+    }
+}
