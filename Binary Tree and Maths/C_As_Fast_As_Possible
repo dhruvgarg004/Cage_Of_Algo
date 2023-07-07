@@ -1,0 +1,12 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int main() {
+    long long n,k,turn;
+    double l,v1,v2,ti_me;
+    cin>>n>>l>>v1>>v2>>k;
+    turn=(n+k-1)/k;
+    ti_me=(l+((v1*v1 - v2*v2)*l/(v2*(-v1 + v2 + 2*v1*turn))))/v1;
+    cout<< setprecision(10) << ti_me;
+	return 0;
+}
