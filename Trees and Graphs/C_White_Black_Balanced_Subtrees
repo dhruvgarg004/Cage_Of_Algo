@@ -1,0 +1,24 @@
+#include <iostream>
+using namespace std;
+ 
+int main() {
+	int t,n,ans=0;
+	cin >>t;
+	for(int i=0;i<t;i++){
+	    ans=0;
+	   cin>> n;
+	   int arr1[n],arr2[n];
+	   char arr3[n];
+	   arr1[0]=1;
+	   for(int j=1;j<n;j++) cin>> arr1[j];
+	   for(int j=0;j<n;j++){
+	       cin>> arr3[j];
+	       if(arr3[j]=='W') arr2[j]=1;
+	       else arr2[j]=-1;
+	   }
+	   for(int j=n-1;j>=0;j--) arr2[arr1[j]-1]=arr2[arr1[j]-1]+arr2[j];
+	   for(int j=0;j<n;j++) if(arr2[j]==0) ans++;
+	   cout<<ans<<endl;
+	}
+	return 0;
+}
