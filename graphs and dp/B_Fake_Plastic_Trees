@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+
+void dfs(vector<vector<int> >&ls, vector<int>& l,vector<int>& r,int node,vector<ll>& sum,vector<ll>& self,vector<int>& vis){
+    vis[node]=1;
+    for(int i=0;i<ls[node].size();i++){
+        if(vis[ls[node][i]]==0){
+            dfs(ls,l,r,ls[node][i],sum,self,vis);
+            sum[node]+=self[ls[node][i]];
+        }
+    }
+    if(sum[node]<l[node]){
+        self[node]=r[node];
+    }
+    else if(sum[node]<=r[node]){
+        self[node]=sum[node];
+    }
+    else{
+        self[node]=r[node];
+    }
+    return;
+}
+
+void solve(){
+    int n;
+    cin >> n;
+    vector<vector<int> > ls(n+1);
+    for(int i=2;i<=n;i++){
+        int take;
+        cin >>take;
+        ls[i].push_back(take);
+        ls[take].push_back(i);
+    }
+    vector<int> l(n+1,0);
+    vector<int> r(n+1,0);
+    for(int i=1;i<=n;i++){
+        int a,b;
+        cin >> a >> b;
+        l[i]=a;
+        r[i]=b;
+    }
+    vector<ll> sum(n+1,0);
+    vector<ll> self(n+1,0);
+    vector<int> vis(n+1,0);
+    int ans=0;
+    dfs(ls,l,r,1,sum,self,vis);
+    for(int i=1;i<=n;i++){
+        if(sum[i]<self[i]) ans++;
+    }
+    cout<<ans<<endl;
+    return;
+}
+
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+    cin >> t;
+    while(t){
+        solve();
+        t--;
+    }
+}
